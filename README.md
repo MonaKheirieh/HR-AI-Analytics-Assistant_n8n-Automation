@@ -73,12 +73,10 @@ Natural Language Question
 
 ### 📊 Validation
 
-Workflow با **50 سؤال متنوع** در سناریوهای مختلف تست شد.
-
+Workflow با **100 سؤال متنوع** در سناریوهای مختلف تست شد.
 نتیجه تست نهایی:
 
-**47 پاسخ صحیح از 50 تست — 94% Accuracy**
-
+**98 پاسخ صحیح از 100 تست — 98% Accuracy**
 این تست‌ها شامل سؤالات Policy، سؤالات عددی Power BI، فیلترهای چندگانه، سؤالات مدیریتی، انتخاب صفحه، Measure Selection و درخواست Screenshot بوده‌اند.
 
 ### 🛠️ Tech Stack
@@ -168,9 +166,9 @@ It is used for interaction logging and storing workflow-related interaction data
 
 ### 📊 Validation
 
-The final workflow was tested with **50 different questions**.
+The final workflow was tested with **100 different questions**.
 
-**47 correct responses out of 50 — 94% accuracy.**
+**98 correct responses out of 100 — 98% accuracy.**
 
 The test scenarios covered policy questions, Power BI analytical questions, multiple filters, managerial requests, page selection, measure selection, and dashboard screenshot requests.
 
