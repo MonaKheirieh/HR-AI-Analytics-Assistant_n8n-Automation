@@ -40,7 +40,8 @@ Natural Language Question
 → Result Formatting
 → Final Response
 
-در صورت درخواست کاربر، Workflow می‌تواند علاوه بر پاسخ عددی، تصویر صفحه مرتبط Power BI را نیز تولید و ارسال کند.
+
+همچنین در صورت درخواست کاربر، تصویر صفحه‌ی مرتبط Power BI ارسال می‌شود؛ اگر سؤال شامل فیلتر باشد، این فیلترها (برای فیلترهای پشتیبانی‌شده مانند جنسیت، وضعیت تأهل، واحد سازمانی، سطح شغلی، سطح تحصیلات، تعلق شغلی و اضافه‌کاری) همزمان روی خود تصویر اعمال می‌شود؛ در غیر این صورت (بدون فیلتر خاص)، تصویر کامل همان صفحه ارسال می‌شود.
 
 
 ### 🧠 LLM & RAG
@@ -142,7 +143,7 @@ Natural Language Question
 → Result Formatting
 → Final Response
 
-When requested, the workflow can also export the relevant Power BI page and send the resulting screenshot through Telegram.
+When requested, the workflow also sends a screenshot of the relevant Power BI page. If the question includes filters, they are applied directly to the exported image as well (for supported dimensions such as gender, marital status, department, job level, education level, job involvement, and overtime); otherwise, the full unfiltered page is sent.
 
 ### 🧠 LLM & RAG
 
