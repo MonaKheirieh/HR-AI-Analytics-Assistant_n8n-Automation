@@ -84,7 +84,8 @@ Workflow با 100 سؤال متنوع در سناریوهای مختلف تست 
 
 **98 پاسخ صحیح از 100 تست — 98% Accuracy**
 
-این تست‌ها شامل سؤالات Policy، سؤالات عددی Power BI، فیلترهای چندگانه، سؤالات مدیریتی، انتخاب صفحه، Measure Selection و درخواست Screenshot بوده‌اند.
+این تست‌ها شامل سؤالات Policy، سؤالات عددی Power BI، فیلترهای چندگانه، سؤالات رتبه‌بندی و مقایسه‌ی گروهی (مانند «کدام واحد بیشترین نرخ ترک خدمت را دارد؟»)، سؤالات مدیریتی، انتخاب صفحه، Measure Selection و درخواست Screenshot بوده‌اند.
+
 
 
 ### 🛠️ Tech Stack
@@ -93,7 +94,7 @@ Workflow با 100 سؤال متنوع در سناریوهای مختلف تست 
 - Telegram Bot
 - AvalAI / GPT-4o-mini
 - Qdrant
-- Sentence Transformers
+- HuggingFace Inference API
 - Power BI Service
 - DAX
 - PostgreSQL
@@ -176,7 +177,7 @@ The final workflow was tested with **100 different questions**.
 
 **98 correct responses out of 100 — 98% accuracy.**
 
-The test scenarios covered policy questions, Power BI analytical questions, multiple filters, managerial requests, page selection, measure selection, and dashboard screenshot requests.
+Test scenarios covered policy questions, Power BI analytical questions, multiple filters, ranking and group-comparison questions (e.g. "which department has the highest attrition rate?"), managerial requests, page selection, measure selection, and dashboard screenshot requests.
 
 ### 🛠️ Tech Stack
 
@@ -184,7 +185,7 @@ The test scenarios covered policy questions, Power BI analytical questions, mult
 - Telegram Bot
 - AvalAI / GPT-4o-mini
 - Qdrant
-- Sentence Transformers
+- HuggingFace Inference API
 - Power BI Service
 - DAX
 - PostgreSQL
