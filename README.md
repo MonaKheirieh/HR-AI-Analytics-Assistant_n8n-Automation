@@ -103,6 +103,15 @@ Telegram Response
 
 فیلترهای مورد استفاده شامل مواردی مانند جنسیت، وضعیت تأهل، واحد سازمانی، سطح شغلی، سطح تحصیلات، زمینه تحصیلات، تعلق شغلی، اضافه‌کاری، وضعیت ترک خدمت، عنوان شغلی و سطح ریسک هستند.
 
+
+### 🔗 Power BI Dashboard Repository
+
+داشبورد Power BI مورد استفاده در این پروژه در یک Repository جداگانه توسعه و مستندسازی شده است.
+
+این Repository شامل طراحی داشبورد، مدل داده، Measures و تحلیل‌های منابع انسانی است و به‌عنوان لایه Analytics & Visualization این پروژه استفاده می‌شود.
+
+👉 **[مشاهده Repository داشبورد Power BI](MonaKheirieh/HR-Analytics-PowerBI.git)**
+
 ---
 
 ## 🧠 LLM & RAG
@@ -384,6 +393,14 @@ Supported HR dimensions include:
 - Attrition Status
 - Job Title
 - Risk Level
+
+### 🔗 Power BI Dashboard Repository
+
+The Power BI dashboard used in this project is developed and documented in a separate repository.
+
+It contains the HR analytics dashboard, data model, measures, and analytical visualizations that serve as the **Analytics & Visualization layer** of this project.
+
+👉 **[View the Power BI Dashboard Repository](https://github.com/MonaKheirieh/HR-Analytics-PowerBI.git)**
 
 ---
 
