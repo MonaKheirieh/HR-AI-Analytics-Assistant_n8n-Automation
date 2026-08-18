@@ -42,7 +42,7 @@ Natural Language Question
 
 در صورت درخواست کاربر، Workflow می‌تواند علاوه بر پاسخ عددی، تصویر صفحه مرتبط Power BI را نیز تولید و ارسال کند.
 
-********
+---
 
 
 برای پردازش زبان طبیعی و Intent Classification از **AvalAI با مدل GPT-4o-mini** استفاده شده است.
