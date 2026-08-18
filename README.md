@@ -235,7 +235,7 @@ HR-AI-Analytics-Assistant/
 │   ├── powerbi-path-part-1.png
 │   └── powerbi-path-part-2.png
 │
-├── videos/
+├── video/
 │   └── n8n-workflow-demo.mp4
 │
 ├── tests/
@@ -528,7 +528,7 @@ HR-AI-Analytics-Assistant/
 │   ├── powerbi-path-part-1.png
 │   └── powerbi-path-part-2.png
 │
-├── videos/
+├── video/
 │   └── n8n-workflow-demo.mp4
 │
 ├── tests/
