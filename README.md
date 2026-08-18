@@ -14,7 +14,7 @@
 
 ### 🏗️ معماری نهایی
 
-Workflow در نسخه نهایی دو مسیر اصلی دارد:
+دو مسیر اصلی دارد:
 
 **📚 Policy / RAG**
 
@@ -41,6 +41,7 @@ Natural Language Question
 
 در صورت درخواست کاربر، Workflow می‌تواند علاوه بر پاسخ عددی، تصویر صفحه مرتبط Power BI را نیز تولید و ارسال کند.
 
+
 ### 🧠 LLM و RAG
 
 برای پردازش زبان طبیعی و Intent Classification از **AvalAI با مدل GPT-4o-mini** استفاده شده است.
@@ -50,6 +51,7 @@ Natural Language Question
 برای تولید Embedding استفاده شده است.
 
 یک Embedding API محلی نیز برای سرویس‌دهی به مدل Embedding در معماری پروژه ایجاد شده است.
+
 
 ### 🔎 مدیریت فیلترها
 
