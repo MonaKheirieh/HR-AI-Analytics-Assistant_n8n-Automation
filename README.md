@@ -232,7 +232,8 @@ HR-AI-Analytics-Assistant/
 │   ├── telegram-bot-response.png
 │   ├── n8n-architecture.png
 │   ├── policy-rag-path.png
-│   └── powerbi-path.png
+│   ├── powerbi-path-part-1.png
+│   └── powerbi-path-part-2.png
 │
 ├── videos/
 │   └── n8n-workflow-demo.mp4
@@ -524,7 +525,8 @@ HR-AI-Analytics-Assistant/
 │   ├── telegram-bot-response.png
 │   ├── n8n-architecture.png
 │   ├── policy-rag-path.png
-│   └── powerbi-path.png
+│   ├── powerbi-path-part-1.png
+│   └── powerbi-path-part-2.png
 │
 ├── videos/
 │   └── n8n-workflow-demo.mp4
