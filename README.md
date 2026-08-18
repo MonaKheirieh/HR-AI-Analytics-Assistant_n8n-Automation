@@ -213,7 +213,7 @@ Send Image to Telegram
 
 برای حفظ امنیت، فایل کامل JSON مربوط به Workflow در Repository عمومی قرار نگرفته است.
 
-ساختار پیشنهادی Repository:
+ساختار Repository:
 
 ```text
 HR-AI-Analytics-Assistant/
@@ -237,26 +237,6 @@ HR-AI-Analytics-Assistant/
     └── project-documentation.pdf
 ```
 
-### Screenshots
-
-بخش `screenshots` شامل تصاویر منتخب از:
-
-- رابط Telegram Bot
-- معماری کلی Workflow در n8n
-- مسیر Policy / RAG
-- مسیر Power BI
-- نمونه پاسخ‌های متنی و تصویری
-
-است.
-
-### Test Matrix
-
-فایل `tests/test-matrix.xlsx` شامل سؤالات تست‌شده، سناریوها و نتایج Validation Workflow است.
-
-### RAG Document
-
-در صورت انتشار فایل RAG، تنها **نسخه کاملاً فرضی و غیرحساس** از مستندات HR در Repository قرار می‌گیرد.
-
 ---
 
 ## 🔐 Security
@@ -268,13 +248,10 @@ HR-AI-Analytics-Assistant/
 - Passwords
 - Telegram Credentials
 - Connection Strings
-- اطلاعات واقعی کارکنان
-- Personally Identifiable Information
 - Credentialهای محیط اجرا
 
 همچنین فایل کامل Production Workflow مربوط به n8n عمداً در Repository عمومی قرار نگرفته است.
 
-Credentialهای سرویس‌ها باید در محیط مقصد و از طریق Credential Management همان سرویس‌ها تنظیم شوند.
 
 ---
 
@@ -542,7 +519,6 @@ HR-AI-Analytics-Assistant/
     └── project-documentation.pdf
 ```
 
-The RAG document should only contain **fictional and non-sensitive HR content**.
 
 ---
 
@@ -555,13 +531,10 @@ The public repository does not contain:
 - Passwords
 - Telegram Credentials
 - Connection Strings
-- Real employee data
-- Personally Identifiable Information
 - Production environment credentials
 
 The complete production n8n workflow is intentionally excluded from the public repository.
 
-Service credentials must be configured separately in the target environment using the appropriate credential management system.
 
 ---
 
