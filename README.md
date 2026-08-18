@@ -239,7 +239,7 @@ HR-AI-Analytics-Assistant/
 │   └── n8n-workflow-demo.mp4
 │
 ├── tests/
-│   └── test-matrix.xlsx
+│   └── HR_bot_test.xlsx
 │
 ├── rag/
 │   └── hr_policies.txt
@@ -532,7 +532,7 @@ HR-AI-Analytics-Assistant/
 │   └── n8n-workflow-demo.mp4
 │
 ├── tests/
-│   └── test-matrix.xlsx
+│   └── HR_bot_test.xlsx
 │
 ├── rag/
 │   └── hr_policies.txt
