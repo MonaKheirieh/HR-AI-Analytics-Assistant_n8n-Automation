@@ -110,9 +110,8 @@ Telegram Response
 
 این Repository شامل طراحی داشبورد، مدل داده، Measures و تحلیل‌های منابع انسانی است و به‌عنوان لایه Analytics & Visualization این پروژه استفاده می‌شود.
 
-👉 **[مشاهده Repository داشبورد Power BI](MonaKheirieh/HR-Analytics-PowerBI.git)**
+👉 **[مشاهده Repository داشبورد Power BI](https://github.com/MonaKheirieh/HR-Analytics-PowerBI)**
 
----
 
 ## 🧠 LLM & RAG
 
