@@ -4,199 +4,581 @@
 
 ---
 
-## 🇮🇷 فارسی
+# 🇮🇷 فارسی
 
-### معرفی پروژه
+## 📌 معرفی پروژه
 
-مینی پروژه **HR AI Analytics Assistant** یک Automation مبتنی بر n8n است که به کاربر اجازه می‌دهد سؤالات منابع انسانی خود را به زبان طبیعی و از طریق Telegram مطرح کند و متناسب با نوع سؤال، پاسخ مبتنی بر اسناد HR یا تحلیل Power BI دریافت کند.
+**HR AI Analytics Assistant** یک Automation مبتنی بر **n8n** است که به کاربر اجازه می‌دهد سؤالات منابع انسانی خود را به زبان طبیعی و از طریق **Telegram** مطرح کند.
 
-هدف پروژه، ایجاد یک لایه هوشمند بین کاربر و منابع اطلاعاتی سازمان است تا کاربر بدون نیاز به نوشتن Query یا جست‌وجوی دستی در اسناد و داشبوردها، پاسخ موردنیاز خود را دریافت کند.
+Workflow بر اساس نوع سؤال، درخواست را به یکی از دو مسیر اصلی **Policy / RAG** یا **Power BI** هدایت کرده و پاسخ متنی، عددی یا تصویری مناسب را برمی‌گرداند.
 
-این پروژه بر پایه‌ی یک دیتاست و اسناد HR کاملاً فرضی ساخته شده و به هیچ سازمان واقعی مرتبط نیست.
+هدف پروژه، ایجاد یک رابط طبیعی و هوشمند بین کاربر و منابع اطلاعاتی منابع انسانی است؛ به‌گونه‌ای که کاربر بدون نیاز به جست‌وجوی دستی در اسناد، نوشتن Query یا پیمایش مستقیم داشبورد، بتواند اطلاعات موردنیاز خود را دریافت کند.
 
-### 🏗️ معماری نهایی
+این پروژه با استفاده از **داده‌ها و اسناد کاملاً فرضی** ساخته شده و به هیچ سازمان واقعی وابسته نیست.
 
-دو مسیر اصلی دارد: Policy / RAG و Power BI 
+---
 
-**📚 Policy / RAG**
+## 🏗️ معماری نهایی پروژه
 
-برای سؤالات مربوط به:
-- سیاست‌ها و آیین‌نامه‌های منابع انسانی
-- قوانین و فرآیندهای HR
-- اطلاعات موجود در مستندات سازمان
+معماری نهایی Workflow شامل دو مسیر اصلی است:
 
-سؤال کاربر به Embedding تبدیل شده و با استفاده از Qdrant در محتوای HR جست‌وجو می‌شود. Context بازیابی‌شده سپس برای تولید پاسخ به LLM ارسال می‌شود.
+```mermaid
+flowchart TD
+    A[👤 کاربر] --> B[📱 Telegram Bot]
+    B --> C[⚙️ n8n Automation]
+    C --> D[🧠 تحلیل سؤال و Intent]
 
+    D -->|Policy / Document| E[📚 Policy / RAG]
+    D -->|Analytical / Managerial| F[📊 Power BI]
 
-**📊 Power BI**
+    E --> E1[🔢 Embedding]
+    E1 --> E2[🔎 Qdrant]
+    E2 --> E3[📄 Context Retrieval]
+    E3 --> G[🤖 AvalAI / GPT-4o-mini]
 
-برای سؤالات داده‌محور و مدیریتی:
+    F --> F1[📑 Page Detection]
+    F1 --> F2[🔍 Filter Extraction]
+    F2 --> F3[🧹 Master Dictionary]
+    F3 --> F4[📐 Measure Selection]
+    F4 --> F5[📝 DAX Query Generation]
+    F5 --> F6[⚡ Power BI Execute Queries]
+    F6 --> F7[📊 Result Formatting]
 
+    F --> I[🖼️ Power BI Export]
+    I --> H[💬 Telegram Response]
+    F7 --> H
+    G --> H
+
+    C --> J[(PostgreSQL)]
+    J --> K[📝 Interaction Logging]
+```
+
+### 📚 مسیر Policy / RAG
+
+این مسیر برای سؤالات مربوط به سیاست‌ها، آیین‌نامه‌ها، قوانین، فرآیندها و سایر اطلاعات موجود در مستندات HR طراحی شده است.
+
+```text
+سؤال کاربر
+    ↓
+تولید Embedding
+    ↓
+جست‌وجو در Qdrant
+    ↓
+بازیابی Context مرتبط
+    ↓
+ارسال Context به LLM
+    ↓
+تولید پاسخ
+    ↓
+ارسال پاسخ به Telegram
+```
+
+### 📊 مسیر Power BI
+
+این مسیر برای سؤالات داده‌محور و مدیریتی استفاده می‌شود.
+
+```text
 Natural Language Question
-→ Intent / Page Detection
-→ Filter Extraction
-→ Measure Selection
-→ Filter Normalization
-→ DAX Query Generation
-→ Power BI Execute Queries
-→ Result Formatting
-→ Final Response
+        ↓
+Intent / Page Detection
+        ↓
+Filter Extraction
+        ↓
+Filter Normalization
+        ↓
+Measure Selection
+        ↓
+DAX Query Generation
+        ↓
+Power BI Execute Queries
+        ↓
+Result Formatting
+        ↓
+Telegram Response
+```
 
+در صورت درخواست کاربر برای دریافت تصویر، صفحه مرتبط Power BI نیز Export شده و در Telegram ارسال می‌شود.
 
-همچنین در صورت درخواست کاربر، تصویر صفحه‌ی مرتبط Power BI ارسال می‌شود؛ اگر سؤال شامل فیلتر باشد، این فیلترها (برای فیلترهای پشتیبانی‌شده مانند جنسیت، وضعیت تأهل، واحد سازمانی، سطح شغلی، سطح تحصیلات، تعلق شغلی و اضافه‌کاری) همزمان روی خود تصویر اعمال می‌شود؛ در غیر این صورت (بدون فیلتر خاص)، تصویر کامل همان صفحه ارسال می‌شود.
+در صورت وجود فیلترهای پشتیبانی‌شده، فیلترها تا حد امکان **هم روی نتیجه عددی و هم روی تصویر Export‌شده** اعمال می‌شوند.
 
+فیلترهای مورد استفاده شامل مواردی مانند جنسیت، وضعیت تأهل، واحد سازمانی، سطح شغلی، سطح تحصیلات، زمینه تحصیلات، تعلق شغلی، اضافه‌کاری، وضعیت ترک خدمت، عنوان شغلی و سطح ریسک هستند.
 
-### 🧠 LLM & RAG
+---
 
-برای پردازش زبان طبیعی و Intent Classification از **AvalAI با مدل GPT-4o-mini** استفاده شده است.
-برای بخش RAG از Qdrant به‌عنوان Vector Database و مدل چندزبانه paraphrase-multilingual-MiniLM-L12-v2 (از طریق Hugging Face Inference API) برای تولید Embedding استفاده شده است.
+## 🧠 LLM & RAG
 
+برای پردازش زبان طبیعی، تحلیل Intent و تولید پاسخ از **AvalAI با مدل GPT-4o-mini** استفاده شده است.
 
+در مسیر RAG، **Qdrant** به‌عنوان Vector Database استفاده شده و مدل چندزبانه `paraphrase-multilingual-MiniLM-L12-v2` از طریق **Hugging Face Inference API** برای تولید Embedding مورد استفاده قرار گرفته است.
 
-### 🔎 مدیریت فیلترها
+---
 
-یکی از بخش‌های مهم پروژه، تبدیل ورودی‌های متنوع فارسی کاربر به مقادیر استاندارد قابل استفاده در Power BI است.
+## 🔎 مدیریت و نرمال‌سازی فیلترها
 
-برای این کار یک **Master Dictionary / Normalization Layer** ایجاد شده که مواردی مانند جنسیت، وضعیت تأهل، واحد سازمانی، سطح شغلی، سطح تحصیلات، زمینه تحصیلات، تعلق شغلی و سایر فیلترها را Normalize می‌کند.
+یکی از بخش‌های کلیدی پروژه، تبدیل عبارت‌های مختلف زبان طبیعی فارسی به مقادیر استاندارد قابل استفاده در Power BI است.
 
-همچنین نام ستون‌های واقعی مدل Power BI در زمان ساخت Query رعایت می‌شود.
+برای این منظور یک **Master Dictionary / Normalization Layer** طراحی شده است.
 
-### 🖼️ Power BI Screenshot
+این لایه ورودی‌های مختلف کاربر را به مقادیر استاندارد تبدیل می‌کند؛ برای مثال:
 
-در سؤالات مدیریتی که کاربر درخواست تصویر داشته باشد، Workflow علاوه بر محاسبه نتیجه، صفحه مرتبط Power BI را Export کرده و تصویر را در Telegram ارسال می‌کند.
+```text
+زن / خانم / مونث
+        ↓
+زن
+```
 
-فیلترهای پشتیبانی‌شده روی خود تصویر هم اعمال می‌شوند (جزئیات در بخش معماری بالا).
+همین منطق برای وضعیت تأهل، واحد سازمانی، سطح شغلی، سطح تحصیلات، زمینه تحصیلات، تعلق شغلی، اضافه‌کاری و سایر ابعاد HR نیز پیاده‌سازی شده است.
 
-### 🗄️ PostgreSQL
+نام ستون‌های واقعی مدل Power BI نیز در زمان ساخت Query رعایت می‌شوند.
 
-در نسخه نهایی PostgreSQL به‌عنوان مسیر مستقل تحلیل داده استفاده نمی‌شود.
+---
 
-کاربرد آن در Automation، ثبت و نگهداری اطلاعات تعاملات و Logging Workflow است.
+## 🖼️ Power BI Screenshot Integration
 
-### 📊 Validation
+در سؤالات مدیریتی که کاربر درخواست تصویر داشته باشد، Workflow صفحه مرتبط Power BI را Export کرده و تصویر را در Telegram ارسال می‌کند.
 
-Workflow با 100 سؤال متنوع در سناریوهای مختلف تست شد.
+```text
+Question
+   ↓
+Page Detection
+   ↓
+Filter Detection
+   ↓
+Power BI Page Export
+   ↓
+Apply Supported Filters
+   ↓
+Send Image to Telegram
+```
 
+در صورت وجود فیلترهای پشتیبانی‌شده، همان فیلترها روی تصویر نیز اعمال می‌شوند.
 
+در صورت نبود فیلتر خاص، تصویر کامل صفحه مرتبط ارسال می‌شود.
 
-نتیجه تست نهایی:
+---
+
+## 🗄️ PostgreSQL
+
+در معماری نهایی، PostgreSQL به‌عنوان مسیر مستقل تحلیل داده استفاده نمی‌شود.
+
+کاربرد PostgreSQL در این Automation، **ثبت و نگهداری اطلاعات تعاملات و Logging Workflow** است.
+
+مسیر تحلیلی اصلی پروژه برای سؤالات داده‌محور از **Power BI Service** استفاده می‌کند.
+
+---
+
+## 📊 Validation & Testing
+
+نسخه نهایی Workflow با **100 سؤال متنوع** در سناریوهای مختلف تست شد.
+
+### نتیجه تست
 
 **98 پاسخ صحیح از 100 تست — 98% Accuracy**
 
-این تست‌ها شامل سؤالات Policy، سؤالات عددی Power BI، فیلترهای چندگانه، سؤالات رتبه‌بندی و مقایسه‌ی گروهی (مانند «کدام واحد بیشترین نرخ ترک خدمت را دارد؟»)، سؤالات مدیریتی، انتخاب صفحه، Measure Selection و درخواست Screenshot بوده‌اند.
+سناریوهای تست شامل موارد زیر بودند:
 
+- سؤالات Policy و RAG
+- سؤالات عددی Power BI
+- فیلترهای چندگانه
+- سؤالات Ranking
+- مقایسه گروه‌های مختلف کارکنان
+- سؤالات مدیریتی
+- Page Selection
+- Measure Selection
+- Filter Normalization
+- DAX Query Generation
+- Power BI Screenshot Requests
+- سؤالات مرتبط با Attrition
+- سؤالات مرتبط با HR Risk
 
-
-### 🛠️ Tech Stack
-
-- n8n
-- Telegram Bot
-- AvalAI / GPT-4o-mini
-- Qdrant
-- HuggingFace Inference API
-- Power BI Service
-- DAX
-- PostgreSQL
-- Docker
-
-### 🔐 Security
-
-این Repository شامل Credential، API Key، Token، Password یا اطلاعات حساس واقعی نیست.
-
-قبل از Import کردن Workflow، Credentialهای سرویس‌ها باید در محیط n8n مقصد دوباره تنظیم شوند.
-
-داده‌های واقعی و اطلاعات شخصی کارکنان نیز نباید در Repository عمومی قرار گیرند.
+فایل Excel مربوط به Test Matrix و نتایج تست‌ها در Repository قرار گرفته است.
 
 ---
 
-## 🇬🇧 English
+## 🛠️ Tech Stack
 
-### Project Overview
+- **n8n** — Workflow Orchestration
+- **Telegram Bot** — User Interface
+- **AvalAI / GPT-4o-mini** — LLM
+- **Qdrant** — Vector Database
+- **Hugging Face Inference API** — Embedding
+- **Power BI Service** — Analytics & Visualization
+- **DAX** — Analytical Query Generation
+- **PostgreSQL** — Interaction Logging
+- **Docker** — Infrastructure
 
-**HR AI Analytics Assistant** is an n8n-based automation that allows users to ask HR-related questions in natural language through Telegram.
+---
 
-Depending on the question, the workflow routes the request to either the **Policy/RAG path** or the **Power BI path**, returning a relevant textual, numerical, or visual response.
+## 📁 Repository Contents
 
-The main goal is to provide a natural-language interface between HR users and organizational knowledge sources, reducing the need for manual document search, query writing, or dashboard navigation.
+برای حفظ امنیت، فایل کامل JSON مربوط به Workflow در Repository عمومی قرار نگرفته است.
 
-This project is built on a fully fictional HR dataset and documents, and is not affiliated with any real organization.
+ساختار پیشنهادی Repository:
 
-### 🏗️ Final Architecture
+```text
+HR-AI-Analytics-Assistant/
+│
+├── README.md
+│
+├── screenshots/
+│   ├── telegram-demo.png
+│   ├── n8n-architecture.png
+│   ├── policy-rag-path.png
+│   └── powerbi-path.png
+│
+├── tests/
+│   └── test-matrix.xlsx
+│
+├── rag/
+│   ├── hr_policies_sample.txt
+│   └── README.md
+│
+└── docs/
+    └── project-documentation.pdf
+```
+
+### Screenshots
+
+بخش `screenshots` شامل تصاویر منتخب از:
+
+- رابط Telegram Bot
+- معماری کلی Workflow در n8n
+- مسیر Policy / RAG
+- مسیر Power BI
+- نمونه پاسخ‌های متنی و تصویری
+
+است.
+
+### Test Matrix
+
+فایل `tests/test-matrix.xlsx` شامل سؤالات تست‌شده، سناریوها و نتایج Validation Workflow است.
+
+### RAG Document
+
+در صورت انتشار فایل RAG، تنها **نسخه کاملاً فرضی و غیرحساس** از مستندات HR در Repository قرار می‌گیرد.
+
+---
+
+## 🔐 Security
+
+برای این Repository عمومی، موارد زیر منتشر نشده‌اند:
+
+- API Keys
+- Bearer Tokens
+- Passwords
+- Telegram Credentials
+- Connection Strings
+- اطلاعات واقعی کارکنان
+- Personally Identifiable Information
+- Credentialهای محیط اجرا
+
+همچنین فایل کامل Production Workflow مربوط به n8n عمداً در Repository عمومی قرار نگرفته است.
+
+Credentialهای سرویس‌ها باید در محیط مقصد و از طریق Credential Management همان سرویس‌ها تنظیم شوند.
+
+---
+
+# 🇬🇧 English
+
+## 📌 Project Overview
+
+**HR AI Analytics Assistant** is an n8n-based automation that allows users to ask HR-related questions in natural language through **Telegram**.
+
+Based on the question type, the workflow routes the request to either the **Policy / RAG path** or the **Power BI path**, returning a relevant textual, numerical, or visual response.
+
+The main goal is to provide a natural-language interface between HR users and organizational information sources, reducing the need for manual document search, query writing, or direct dashboard navigation.
+
+This project is built entirely on **fictional HR data and documents** and is not affiliated with any real organization.
+
+---
+
+## 🏗️ Final Architecture
 
 The final workflow contains two main paths:
 
-**📚 Policy / RAG**
+```text
+User
+ │
+ ▼
+Telegram Bot
+ │
+ ▼
+n8n Automation
+ │
+ ▼
+Intent & Question Analysis
+ │
+ ├──────────────► Policy / RAG
+ │                    │
+ │                    ├── Embedding
+ │                    ├── Qdrant
+ │                    ├── Context Retrieval
+ │                    └── AvalAI / GPT-4o-mini
+ │
+ └──────────────► Power BI
+                      │
+                      ├── Page Detection
+                      ├── Filter Extraction
+                      ├── Filter Normalization
+                      ├── Measure Selection
+                      ├── DAX Query Generation
+                      ├── Execute Queries
+                      └── Power BI Export
+ │
+ ▼
+Telegram Response
 
-Used for HR policy, procedure, regulation, and document-based questions.
-
-The question is converted into an embedding and searched against HR knowledge stored in Qdrant. Retrieved context is then passed to the LLM to generate a grounded response.
-
-**📊 Power BI**
-
-Used for analytical and managerial questions.
-
-Natural Language Question
-→ Intent / Page Detection
-→ Filter Extraction
-→ Measure Selection
-→ Filter Normalization
-→ DAX Query Generation
-→ Power BI Execute Queries
-→ Result Formatting
-→ Final Response
-
-When requested, the workflow also sends a screenshot of the relevant Power BI page. If the question includes filters, they are applied directly to the exported image as well (for supported dimensions such as gender, marital status, department, job level, education level, job involvement, and overtime); otherwise, the full unfiltered page is sent.
-
-### 🧠 LLM & RAG
-
-The workflow uses **AvalAI with GPT-4o-mini** for natural-language processing and intent classification.
-
-**Qdrant** is used as the vector database, while paraphrase-multilingual-MiniLM-L12-v2 (called via the Hugging Face Inference API) is used for multilingual embeddings.
-
-
-### 🔎 Filter Normalization
-
-A custom **Master Dictionary / Normalization Layer** was implemented to map different Persian user expressions to standardized Power BI filter values.
-
-This layer handles dimensions such as gender, marital status, department, job level, education level, education field, job involvement, and other HR filters.
-
-### 🖼️ Power BI Integration
-
-For managerial requests requiring a visual response, the workflow exports the relevant Power BI page and sends the resulting image to Telegram, applying supported filters directly to the image where possible.
-
-### 🗄️ PostgreSQL
-
-In the final architecture, PostgreSQL is not used as an independent analytics path.
-
-It is used for interaction logging and storing workflow-related interaction data.
-
-### 📊 Validation
-
-The final workflow was tested with **100 different questions**.
-
-**98 correct responses out of 100 — 98% accuracy.**
-
-Test scenarios covered policy questions, Power BI analytical questions, multiple filters, ranking and group-comparison questions (e.g. "which department has the highest attrition rate?"), managerial requests, page selection, measure selection, and dashboard screenshot requests.
-
-### 🛠️ Tech Stack
-
-- n8n
-- Telegram Bot
-- AvalAI / GPT-4o-mini
-- Qdrant
-- HuggingFace Inference API
-- Power BI Service
-- DAX
-- PostgreSQL
-- Docker
-
-### 🔐 Security
-
-No real credentials, API keys, tokens, passwords, or sensitive employee information should be included in this repository.
-
-Credentials must be configured separately in the target n8n environment.
-
-Real employee datasets and personally identifiable information should not be committed to a public repository.
+PostgreSQL
+     │
+     └── Interaction Logging
+```
 
 ---
 
+## 📚 Policy / RAG Path
+
+This path handles questions related to:
+
+- HR policies
+- HR procedures
+- regulations
+- organizational HR documents
+
+General flow:
+
+```text
+User Question
+    ↓
+Embedding Generation
+    ↓
+Qdrant Search
+    ↓
+Relevant Context Retrieval
+    ↓
+LLM
+    ↓
+Grounded Response
+    ↓
+Telegram
+```
+
+The retrieved context is provided to the LLM so that responses are grounded in the relevant HR documentation.
+
+---
+
+## 📊 Power BI Path
+
+The Power BI path handles analytical and managerial questions.
+
+```text
+Natural Language Question
+        ↓
+Intent / Page Detection
+        ↓
+Filter Extraction
+        ↓
+Filter Normalization
+        ↓
+Measure Selection
+        ↓
+DAX Query Generation
+        ↓
+Power BI Execute Queries
+        ↓
+Result Formatting
+        ↓
+Telegram Response
+```
+
+When requested, the workflow also exports the relevant Power BI page and sends the screenshot through Telegram.
+
+Supported HR dimensions include:
+
+- Gender
+- Marital Status
+- Department
+- Job Level
+- Education Level
+- Education Field
+- Job Involvement
+- Overtime
+- Attrition Status
+- Job Title
+- Risk Level
+
+---
+
+## 🧠 LLM & RAG
+
+The workflow uses **AvalAI with GPT-4o-mini** for natural-language processing, intent analysis, and response generation.
+
+For the RAG pipeline:
+
+- **Qdrant** is used as the vector database.
+- **paraphrase-multilingual-MiniLM-L12-v2** is used for multilingual embeddings.
+- **Hugging Face Inference API** is used to access the embedding model.
+
+---
+
+## 🔎 Filter Normalization
+
+A custom **Master Dictionary / Normalization Layer** maps different Persian user expressions to standardized Power BI filter values.
+
+For example:
+
+```text
+زن / خانم / مونث
+        ↓
+زن
+```
+
+The same normalization approach is used for marital status, department, job level, education level, education field, job involvement, overtime, and other HR dimensions.
+
+The actual Power BI model column names are also taken into account during query generation.
+
+---
+
+## 🖼️ Power BI Screenshot Integration
+
+For managerial questions requiring a visual response, the workflow exports the relevant Power BI page and sends the resulting image to Telegram.
+
+```text
+Question
+   ↓
+Page Detection
+   ↓
+Filter Detection
+   ↓
+Power BI Export
+   ↓
+Apply Supported Filters
+   ↓
+Telegram Image
+```
+
+When supported filters are present, they are applied to the exported image as well.
+
+Without specific filters, the full relevant Power BI page is returned.
+
+---
+
+## 🗄️ PostgreSQL
+
+In the final architecture, PostgreSQL is **not used as an independent analytics path**.
+
+It is used for interaction logging and workflow-related records.
+
+The main analytical path relies on **Power BI Service**.
+
+---
+
+## 📊 Validation & Testing
+
+The final workflow was tested with **100 different questions** across multiple scenarios.
+
+### Final Result
+
+**98 correct responses out of 100 — 98% accuracy**
+
+Test scenarios included:
+
+- Policy / RAG questions
+- Power BI analytical questions
+- Multiple filters
+- Ranking questions
+- Group comparisons
+- Managerial questions
+- Page selection
+- Measure selection
+- Filter normalization
+- DAX query generation
+- Power BI screenshot requests
+- Attrition questions
+- HR risk questions
+
+The complete test matrix and results are included in the repository.
+
+---
+
+## 🛠️ Tech Stack
+
+- **n8n** — Workflow Orchestration
+- **Telegram Bot** — User Interface
+- **AvalAI / GPT-4o-mini** — LLM
+- **Qdrant** — Vector Database
+- **Hugging Face Inference API** — Embedding
+- **Power BI Service** — Analytics & Visualization
+- **DAX** — Analytical Query Generation
+- **PostgreSQL** — Interaction Logging
+- **Docker** — Infrastructure
+
+---
+
+## 📁 Repository Contents
+
+For security reasons, the complete production n8n workflow JSON is intentionally **not included** in the public repository.
+
+The repository contains selected screenshots, the test matrix, a fictional RAG document, and project documentation.
+
+```text
+HR-AI-Analytics-Assistant/
+│
+├── README.md
+│
+├── screenshots/
+│   ├── telegram-demo.png
+│   ├── n8n-architecture.png
+│   ├── policy-rag-path.png
+│   └── powerbi-path.png
+│
+├── tests/
+│   └── test-matrix.xlsx
+│
+├── rag/
+│   ├── hr_policies_sample.txt
+│   └── README.md
+│
+└── docs/
+    └── project-documentation.pdf
+```
+
+The RAG document should only contain **fictional and non-sensitive HR content**.
+
+---
+
+## 🔐 Security
+
+The public repository does not contain:
+
+- API Keys
+- Bearer Tokens
+- Passwords
+- Telegram Credentials
+- Connection Strings
+- Real employee data
+- Personally Identifiable Information
+- Production environment credentials
+
+The complete production n8n workflow is intentionally excluded from the public repository.
+
+Service credentials must be configured separately in the target environment using the appropriate credential management system.
+
+---
+
+## ⭐ Project Highlights
+
+- Persian natural-language HR assistant
+- Two-path intelligent routing architecture
+- RAG-based HR policy question answering
+- Qdrant vector search
+- Multilingual embedding generation
+- Power BI analytical query generation
+- DAX-based analytics
+- Automatic filter normalization
+- Power BI page detection
+- Power BI screenshot export
+- Telegram-based interaction
+- Interaction logging with PostgreSQL
+- 100-question validation set
+- 98% final test accuracy
+- Security-conscious public repository structure
