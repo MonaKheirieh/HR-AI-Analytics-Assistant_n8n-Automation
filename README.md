@@ -242,7 +242,7 @@ HR-AI-Analytics-Assistant/
 │   └── test-matrix.xlsx
 │
 ├── rag/
-│   └── hr_policies_sample.txt
+│   └── hr_policies.txt
 │
 └── docs/
     └── project-documentation.pdf
@@ -535,7 +535,7 @@ HR-AI-Analytics-Assistant/
 │   └── test-matrix.xlsx
 │
 ├── rag/
-│   └── hr_policies_sample.txt
+│   └── hr_policies.txt
 │
 └── docs/
     └── project-documentation.pdf
