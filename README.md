@@ -12,6 +12,8 @@
 
 هدف پروژه، ایجاد یک لایه هوشمند بین کاربر و منابع اطلاعاتی سازمان است تا کاربر بدون نیاز به نوشتن Query یا جست‌وجوی دستی در اسناد و داشبوردها، پاسخ موردنیاز خود را دریافت کند.
 
+این پروژه بر پایه‌ی یک دیتاست و اسناد HR کاملاً فرضی ساخته شده و به هیچ سازمان واقعی مرتبط نیست.
+
 ### 🏗️ معماری نهایی
 
 دو مسیر اصلی دارد: Policy / RAG و Power BI 
@@ -47,10 +49,7 @@ Natural Language Question
 ### 🧠 LLM & RAG
 
 برای پردازش زبان طبیعی و Intent Classification از **AvalAI با مدل GPT-4o-mini** استفاده شده است.
-
-برای بخش RAG از **Qdrant** به‌عنوان Vector Database و مدل چندزبانه
-`paraphrase-multilingual-MiniLM-L12-v2`
-برای تولید Embedding استفاده شده است.
+برای بخش RAG از Qdrant به‌عنوان Vector Database و مدل چندزبانه paraphrase-multilingual-MiniLM-L12-v2 (از طریق Hugging Face Inference API) برای تولید Embedding استفاده شده است.
 
 
 
@@ -66,7 +65,7 @@ Natural Language Question
 
 در سؤالات مدیریتی که کاربر درخواست تصویر داشته باشد، Workflow علاوه بر محاسبه نتیجه، صفحه مرتبط Power BI را Export کرده و تصویر را در Telegram ارسال می‌کند.
 
-فیلترهای موردنیاز برای Report Level Filter نیز بر اساس سؤال ساخته می‌شوند.
+فیلترهای پشتیبانی‌شده روی خود تصویر هم اعمال می‌شوند (جزئیات در بخش معماری بالا).
 
 ### 🗄️ PostgreSQL
 
@@ -120,6 +119,8 @@ Depending on the question, the workflow routes the request to either the **Polic
 
 The main goal is to provide a natural-language interface between HR users and organizational knowledge sources, reducing the need for manual document search, query writing, or dashboard navigation.
 
+This project is built on a fully fictional HR dataset and documents, and is not affiliated with any real organization.
+
 ### 🏗️ Final Architecture
 
 The final workflow contains two main paths:
@@ -150,9 +151,7 @@ When requested, the workflow also sends a screenshot of the relevant Power BI pa
 
 The workflow uses **AvalAI with GPT-4o-mini** for natural-language processing and intent classification.
 
-**Qdrant** is used as the vector database, while
-`paraphrase-multilingual-MiniLM-L12-v2`
-is used for multilingual embeddings.
+**Qdrant** is used as the vector database, while paraphrase-multilingual-MiniLM-L12-v2 (called via the Hugging Face Inference API) is used for multilingual embeddings.
 
 
 ### 🔎 Filter Normalization
@@ -163,7 +162,7 @@ This layer handles dimensions such as gender, marital status, department, job le
 
 ### 🖼️ Power BI Integration
 
-For managerial requests requiring a visual response, the workflow can export the relevant Power BI page, apply report-level filters, and send the resulting image to Telegram.
+For managerial requests requiring a visual response, the workflow exports the relevant Power BI page and sends the resulting image to Telegram, applying supported filters directly to the image where possible.
 
 ### 🗄️ PostgreSQL
 
