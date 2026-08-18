@@ -221,16 +221,22 @@ HR-AI-Analytics-Assistant/
 ├── README.md
 │
 ├── screenshots/
-│   ├── telegram-demo.png
+│   ├── telegram-bot-response.png
 │   ├── n8n-architecture.png
 │   ├── policy-rag-path.png
 │   └── powerbi-path.png
 │
+├── videos/
+│   └── n8n-workflow-demo.mp4
+│
 ├── tests/
 │   └── test-matrix.xlsx
 │
-└── rag/
-    └── hr_policies_sample.txt
+├── rag/
+│   └── hr_policies_sample.txt
+│
+└── docs/
+    └── project-documentation.pdf
 ```
 
 ---
@@ -499,17 +505,19 @@ HR-AI-Analytics-Assistant/
 ├── README.md
 │
 ├── screenshots/
-│   ├── telegram-demo.png
+│   ├── telegram-bot-response.png
 │   ├── n8n-architecture.png
 │   ├── policy-rag-path.png
 │   └── powerbi-path.png
+│
+├── videos/
+│   └── n8n-workflow-demo.mp4
 │
 ├── tests/
 │   └── test-matrix.xlsx
 │
 ├── rag/
-│   ├── hr_policies_sample.txt
-│   └── README.md
+│   └── hr_policies_sample.txt
 │
 └── docs/
     └── project-documentation.pdf
