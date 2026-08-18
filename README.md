@@ -42,8 +42,8 @@ Natural Language Question
 
 در صورت درخواست کاربر، Workflow می‌تواند علاوه بر پاسخ عددی، تصویر صفحه مرتبط Power BI را نیز تولید و ارسال کند.
 
----
 
+### 🧠 LLM & RAG
 
 برای پردازش زبان طبیعی و Intent Classification از **AvalAI با مدل GPT-4o-mini** استفاده شده است.
 
@@ -51,7 +51,6 @@ Natural Language Question
 `paraphrase-multilingual-MiniLM-L12-v2`
 برای تولید Embedding استفاده شده است.
 
-یک Embedding API محلی نیز برای سرویس‌دهی به مدل Embedding در معماری پروژه ایجاد شده است.
 
 
 ### 🔎 مدیریت فیلترها
@@ -94,7 +93,6 @@ Workflow با 100 سؤال متنوع در سناریوهای مختلف تست 
 - AvalAI / GPT-4o-mini
 - Qdrant
 - Sentence Transformers
-- Python / FastAPI
 - Power BI Service
 - DAX
 - PostgreSQL
@@ -154,7 +152,6 @@ The workflow uses **AvalAI with GPT-4o-mini** for natural-language processing an
 `paraphrase-multilingual-MiniLM-L12-v2`
 is used for multilingual embeddings.
 
-A local Embedding API was also implemented to serve the embedding model.
 
 ### 🔎 Filter Normalization
 
@@ -187,7 +184,6 @@ The test scenarios covered policy questions, Power BI analytical questions, mult
 - AvalAI / GPT-4o-mini
 - Qdrant
 - Sentence Transformers
-- Python / FastAPI
 - Power BI Service
 - DAX
 - PostgreSQL
